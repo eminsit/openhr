@@ -1,0 +1,16 @@
+app:
+  name: "Just HR"
+  port: "1323"
+
+mongo:
+  host: "localhost"
+  port: "27017"
+  username: ""
+  password: ""
+
+databaseNames:
+  auth: "auth"
+
+collectionNames:
+  user: "user"
+  session: "session"
