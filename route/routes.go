@@ -1,9 +1,7 @@
 package route
 
 import (
-	"github.com/eminsit/openhr/handler"
-	"github.com/eminsit/openhr/model"
-	"log"
+	"github.com/eminsit/openhr/controller"
 	"net/http"
 
 	"github.com/labstack/echo"
@@ -14,18 +12,7 @@ func Init(e *echo.Echo) {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 
-	e.GET("/deneme", func(c echo.Context) error {
-		log.Println("deneme")
-		return c.String(http.StatusOK, "naber")
-	})
+	e.POST("user/login", controller.Register)
 
-	e.POST("user/register", func(c echo.Context) error {
-
-		user := &model.User{}
-		if err := c.Bind(user); err != nil {
-			log.Fatalln(err.Error())
-		}
-		userHandler := handler.CreateUser(user)
-		return c.JSON(http.StatusOK, userHandler)
-	})
+	e.POST("user/register", controller.Login)
 }

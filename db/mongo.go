@@ -6,22 +6,34 @@ import (
 	"github.com/eminsit/openhr/config"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"time"
+	"log"
 )
 
-var Client *mongo.Client
+var MongoConnectionUri string
 
 func Init() {
 
-	mongoConnection := fmt.Sprintf("mongodb://%v:%v", config.AppConfig.Mongo.Host, config.AppConfig.Mongo.Port)
+	MongoConnectionUri = fmt.Sprintf("mongodb://%v:%v", config.AppConfig.Mongo.Host, config.AppConfig.Mongo.Port)
 
-	client, err := mongo.NewClient(options.Client().ApplyURI(mongoConnection))
+	_, err := mongo.NewClient(options.Client().ApplyURI(MongoConnectionUri))
 
 	if err != nil {
-
+		log.Println(err)
 	}
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	err = client.Connect(ctx)
-
-	Client = client
 }
+
+func GetClient() *mongo.Client {
+
+	clientOptions := options.Client().ApplyURI(MongoConnectionUri)
+	log.Println(MongoConnectionUri)
+	client, err := mongo.Connect(context.TODO(), clientOptions)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return client
+}
+
+
+

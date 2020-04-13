@@ -19,6 +19,7 @@ type Config struct {
 	} `yaml:"mongo"`
 	DatabaseNames   map[string]string `yaml:"databaseNames"`
 	CollectionNames map[string]string `yaml:"collectionNames"`
+	JwtSecretKey    string `yaml:"jwtSecret"`
 }
 
 var AppConfig *Config
